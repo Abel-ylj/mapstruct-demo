@@ -32,4 +32,9 @@ public class CarVO {
      * 司机
      */
     private DriverVO driverVO;
+
+    /**
+     * 演示从dto->vo时 ignore该字段
+     */
+    private String color;
 }

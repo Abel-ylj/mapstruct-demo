@@ -6,6 +6,7 @@ import cn.abel.beans.dto.DriverDTO;
 import cn.abel.beans.dto.PartDTO;
 import cn.abel.beans.vo.CarVO;
 import cn.abel.beans.vo.DriverVO;
+import cn.abel.convert.CarConvert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,18 @@ import java.util.Date;
 @SpringBootTest(classes = MapStructApplication.class)
 public class MapStructTest {
 
+    /**
+     * mapstruct优化
+     */
+    @Test
+    public void test2() {
+        CarDTO carDTO = buildCarDTO();
+        CarVO carVO = CarConvert.INSTANCE.dto2vo(carDTO);
+        System.out.println(carDTO);
+        System.out.println(carVO);
+        System.out.println("done");
+    }
+
     @Test
     public void test1() {
         CarDTO carDTO = buildCarDTO();
@@ -33,22 +46,24 @@ public class MapStructTest {
         carVO.setId(carDTO.getId());
         carVO.setVin(carDTO.getVin());
         carVO.setPrice(carDTO.getPrice());
-        // diff
+        // diff 输出值不同
         double totalPrice = carDTO.getTotalPrice();
         DecimalFormat df = new DecimalFormat("#.00");
         carVO.setTotalPrice(df.format(totalPrice));
-        // diff
+        // diff 输出值格式不同
         Date publishDate = carDTO.getPublishDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         carVO.setPublishDate(sdf.format(publishDate));
 
+        // diff 命名不同
         carVO.setBrandName(carDTO.getBrand());
         carVO.setHasPart(CollectionUtils.isEmpty(carDTO.getPartDTOS()));
 
         DriverVO driverVO = new DriverVO();
         DriverDTO driverDTO = carDTO.getDriverDTO();
         driverVO.setDriverId(driverDTO.getId());
-        driverVO.setFullName(driverDTO.getName()); // diff
+        driverVO.setFullName(driverDTO.getName());
+        // diff 引用对象不同
         carVO.setDriverVO(driverVO);
 
         System.out.println(carVO);
@@ -79,6 +94,8 @@ public class MapStructTest {
         driverDTO.setId(88l);
         driverDTO.setName("小明");
         carDTO.setDriverDTO(driverDTO);
+
+        carDTO.setColor("白色");
         return carDTO;
     }
 }

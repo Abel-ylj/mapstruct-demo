@@ -37,4 +37,9 @@ public class CarDTO {
      * 司机
      */
     private DriverDTO driverDTO;
+
+    /**
+     * 颜色 演示ignore
+     */
+    private String color;
 }

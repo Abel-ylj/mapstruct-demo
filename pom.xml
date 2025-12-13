@@ -72,6 +72,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+        <!-- lombok       -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -91,6 +92,22 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- mapstruct依赖 -->
+        <!-- MapStruct 本体依赖 -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.3.Final</version> <!-- 请使用最新的版本 -->
+        </dependency>
+
+        <!-- MapStruct 注解处理器 -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.3.Final</version>
+            <scope>provided</scope> <!-- 注意这里的 scope -->
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -99,7 +116,29 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version> <!-- 使用适合你项目的版本 -->
+                <configuration>
+                    <source>1.8</source> <!-- 或者是你项目使用的 Java 版本 -->
+                    <target>1.8</target> <!-- 或者是你项目使用的 Java 版本 -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.3.Final</version> <!-- 注意这里的版本 -->
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.26</version> <!-- 使用 Lombok 最新版本 -->
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
         </plugins>
+
     </build>
 
 </project>
