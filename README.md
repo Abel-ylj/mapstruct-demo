@@ -7,11 +7,11 @@
 
 ## 二. 使用
 
-### 2.2 @Mapper
+### 2.2 @Mapper 
 
 * 同类型同名属性，自动映射
 
-* 会自动转换
+* （默认映射关系）会自动转换
 
   * 8种基本类型类型与其包装类型
 
@@ -26,6 +26,9 @@
     示例: Date publishDate -> String publishDate
 
 ### 2.3 @Mappings 和 @Mapping
+
+* 指定属性之间的映射关系
+  * 日期格式转换:  dateFormat = "yyyy-MM-dd "
 
 ### 2.4 @AfterMapping和@MappingTarget
 
