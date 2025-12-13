@@ -6,6 +6,7 @@ import cn.abel.beans.dto.DriverDTO;
 import cn.abel.beans.dto.PartDTO;
 import cn.abel.beans.vo.CarVO;
 import cn.abel.beans.vo.DriverVO;
+import cn.abel.beans.vo.VehicleVO;
 import cn.abel.convert.CarConvert;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
@@ -27,6 +28,18 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MapStructApplication.class)
 public class MapStructTest {
+
+    /**
+     * 关闭默认映射功能(字段名称相同则映射)，每一条映射规则由自己指定
+     * 场景: A对象到B对象有100个默认映射属性。但我只要映射其中某几条
+     */
+    @Test
+    public void test4() {
+        CarDTO carDTO = buildCarDTO();
+        VehicleVO vehicleVO = CarConvert.INSTANCE.carDTO2vehicleVO(carDTO);
+        System.out.println(carDTO);
+        System.out.println(vehicleVO);
+    }
 
     /**
      * 批量映射

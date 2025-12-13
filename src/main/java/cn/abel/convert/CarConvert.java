@@ -5,10 +5,13 @@ import cn.abel.beans.dto.DriverDTO;
 import cn.abel.beans.dto.PartDTO;
 import cn.abel.beans.vo.CarVO;
 import cn.abel.beans.vo.DriverVO;
+import cn.abel.beans.vo.VehicleVO;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+import org.springframework.context.annotation.Bean;
 import org.springframework.util.CollectionUtils;
 
+import javax.smartcardio.Card;
 import java.util.List;
 
 /**
@@ -24,6 +27,15 @@ import java.util.List;
 public abstract class CarConvert {
 
     public static CarConvert INSTANCE = Mappers.getMapper(CarConvert.class);
+
+    /**
+     * 关闭默认映射行为，每一条映射规则自己指定
+     * @param carDTO
+     * @return
+     */
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(source = "id", target = "id")
+    public abstract VehicleVO carDTO2vehicleVO(CarDTO carDTO);
 
     /**
      * dto2vo  转换的批量方法
