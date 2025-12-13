@@ -26,6 +26,14 @@ public abstract class CarConvert {
     public static CarConvert INSTANCE = Mappers.getMapper(CarConvert.class);
 
     /**
+     * dto2vo  转换的批量方法
+     * @param carDTOS
+     * @return
+     */
+    public abstract List<CarVO> dtos2vos(List<CarDTO> carDTOS);
+
+    /**
+     * 单个转换
      * carDto -> carVO
      */
     @Mappings(

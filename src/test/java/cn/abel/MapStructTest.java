@@ -7,6 +7,7 @@ import cn.abel.beans.dto.PartDTO;
 import cn.abel.beans.vo.CarVO;
 import cn.abel.beans.vo.DriverVO;
 import cn.abel.convert.CarConvert;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author : ylj
@@ -25,6 +27,25 @@ import java.util.Date;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MapStructApplication.class)
 public class MapStructTest {
+
+    /**
+     * 批量映射
+     * List<CarDto> -> List<CarVO>
+     */
+    @Test
+    public void test3() {
+        ArrayList<CarDTO> carDTOS = Lists.newArrayList(buildCarDTO(), buildCarDTO2());
+        // 方式一(不推荐)
+//        List<CarVO> carVOS = new ArrayList<>();
+//        for (CarDTO carDTO : carDTOS) {
+//            carVOS.add(CarConvert.INSTANCE.dto2vo(carDTO));
+//        }
+
+        // 方式二(推荐)
+        List<CarVO> carVOS = CarConvert.INSTANCE.dtos2vos(carDTOS);
+        System.out.println(carVOS);
+    }
+
 
     /**
      * mapstruct优化
@@ -96,6 +117,27 @@ public class MapStructTest {
         carDTO.setDriverDTO(driverDTO);
 
         carDTO.setColor("白色");
+        return carDTO;
+    }
+
+    private CarDTO buildCarDTO2() {
+        CarDTO carDTO = new CarDTO();
+        carDTO.setId(331L);
+        carDTO.setVin("vin1234567999");
+        carDTO.setPrice(22222.345d);
+        carDTO.setTotalPrice(333333.1123d);
+        carDTO.setPublishDate(new Date());
+        carDTO.setBrand("吉利");
+        // 零件
+        ArrayList<PartDTO> partDTOList = new ArrayList<>();
+        carDTO.setPartDTOS(partDTOList);
+        // 驾驶员
+        DriverDTO driverDTO = new DriverDTO();
+        driverDTO.setId(66l);
+        driverDTO.setName("小杨");
+        carDTO.setDriverDTO(driverDTO);
+
+        carDTO.setColor("蓝色");
         return carDTO;
     }
 }
