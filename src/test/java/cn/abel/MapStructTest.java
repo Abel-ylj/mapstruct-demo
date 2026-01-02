@@ -8,6 +8,7 @@ import cn.abel.beans.vo.CarVO;
 import cn.abel.beans.vo.DriverVO;
 import cn.abel.beans.vo.VehicleVO;
 import cn.abel.convert.CarConvert;
+import cn.abel.convert.DriverConvert;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +43,10 @@ public class MapStructTest {
         System.out.println(vehicleVO);
     }
 
+
+//    @Resource
+//    private CarConvert carConvert;
+
     /**
      * 批量映射
      * List<CarDto> -> List<CarVO>
@@ -56,12 +62,25 @@ public class MapStructTest {
 
         // 方式二(推荐)
         List<CarVO> carVOS = CarConvert.INSTANCE.dtos2vos(carDTOS);
+//        List<CarVO> carVOS = carConvert.dtos2vos(carDTOS); // 使用spring方式
         System.out.println(carVOS);
+    }
+
+    /**
+     * 测试DriverConvert类
+     */
+    @Test
+    public void test5() {
+        DriverDTO driverDTO = new DriverDTO();
+        driverDTO.setId(666L);
+        driverDTO.setName("牛牛牛");
+        DriverVO driverVO = DriverConvert.INSTANCE.driverDTO2DriverVO(driverDTO);
+        System.out.println(driverVO);
     }
 
 
     /**
-     * mapstruct优化
+     * mapstruct优化，test1手动映射优化，其中嵌套的对象driverDTO -> driverVO 的映射
      */
     @Test
     public void test2() {
@@ -72,6 +91,9 @@ public class MapStructTest {
         System.out.println("done");
     }
 
+    /**
+     * 手动映射
+     */
     @Test
     public void test1() {
         CarDTO carDTO = buildCarDTO();

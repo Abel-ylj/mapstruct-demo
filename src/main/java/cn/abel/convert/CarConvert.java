@@ -8,10 +8,8 @@ import cn.abel.beans.vo.DriverVO;
 import cn.abel.beans.vo.VehicleVO;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import org.springframework.context.annotation.Bean;
 import org.springframework.util.CollectionUtils;
 
-import javax.smartcardio.Card;
 import java.util.List;
 
 /**
@@ -23,6 +21,7 @@ import java.util.List;
  * @author : ylj
  * create at:  2025/12/13
  */
+//@Mapper(componentModel = "spring", uses = DriverConvert.class)  // 演示子对象转换方式三
 @Mapper
 public abstract class CarConvert {
 
@@ -57,13 +56,14 @@ public abstract class CarConvert {
                     @Mapping(target = "color", ignore = true),
                     // 属性名称不一样进行映射
                     @Mapping(source = "brand", target = "brandName"),
-                    // 对象映射, mapstruct会根据s,t对象类型匹配到映射逻辑->driverDTO2DriverVO
+                    // 子对象映射, mapstruct会根据s,t对象类型匹配到映射逻辑->driverDTO2DriverVO
                     @Mapping(source = "driverDTO", target = "driverVO")
             }
     )
     public abstract CarVO dto2vo(CarDTO carDTO);
 
     /**
+     * 子对象映射方式一(DriverDTO -> DriverVO): 在当前CarConvert映射类中重新写一遍子对象映射逻辑
      * driverDTO --> driverVO
      * @param driverDTO
      * @return
@@ -71,6 +71,18 @@ public abstract class CarConvert {
     @Mapping(source = "id", target = "driverId")
     @Mapping(source = "name", target = "fullName")
     public abstract DriverVO driverDTO2DriverVO(DriverDTO driverDTO);
+
+//    子对象映射方式二(DriverDTO -> DriverVO): 引用其他convert的逻辑来完成子对象的映射
+//    public static final DriverConvert DRIVER_CONVERT = Mappers.getMapper(DriverConvert.class);
+//
+//    // 将 driverDTO 转换成 driverVO 的逻辑委托给 DriverConvert
+//    public DriverVO mapDriverDTOToVO(DriverDTO driverDTO) {
+//        return DRIVER_CONVERT.driverDTO2DriverVO(driverDTO);
+//    }
+
+//     子对象映射方式三(DriverDTO -> DriverVO): 使用spring注解引入DriverConvert
+//     第一步: CarConvert和DriverConvert都要交给spring管理 @Mapper(componentModel = "spring", uses = DriverConvert.class)
+//     第二步: uses注明使用了DriverConvert，然后就能自动查找 driverDTO -》 driverVO
 
     // 在自动映射完成后进入该后置逻辑
     @AfterMapping
